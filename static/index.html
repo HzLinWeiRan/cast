@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style lang="css">
+    #cast {
+      border: 1px solid #ccc;
+      height: 400px;
+      width: 600px;
+      overflow: auto;
+    }
+    #cast p{
+      margin: 0px;
+      padding: 0px;
+      padding-bottom: 5px; 
+    }
+    #cast pre{
+      float: left;
+      font-size: 14px;
+      line-height: 20px;
+      padding: 5px 10px;
+      margin: 0px;
+      border-radius: 10px;
+      background: #ccc;
+      color: #FFF;
+      max-width: 300px;
+      white-space: pre-line;
+      word-wrap:break-word
+    }
+    
+    #cast .txt-right {
+      text-align: right;
+    }
+    #cast .txt-right > pre{
+      float: right;
+    }
+    #cast>div {
+      padding: 0px 10px;
+    }
+    #cast>div::after{
+      clear: both;
+      display: block;
+      content: " ";
+    }
+    #cast>div+div{
+      margin-top: 5px;
+    }
+    #txt {
+      width: 300px;
+      height: 100px;
+      margin-top: 10px;
+      vertical-align: middle;
+      resize:none;
+    }
+    #button {
+      vertical-align: bottom;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="cast"></div>
+  <textarea id="txt" contentEditable="true"></textarea>
+  <button id="button">发送</button>
+  <script src="/static/jquery-1.8.1.min.js" ></script>
+  <script src="/static/cast.js"></script>
+</body>
+
+</html>
