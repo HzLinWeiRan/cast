@@ -10,14 +10,13 @@ var expressWs = require('express-ws')(app);
 
 app.use(cookieParser());
 app.use(session({
-	genid: function (req) {
-		return UUID() // use UUIDs for session IDs
+	secret: 'keyboard cat',
+	resave: false,
+	cookie: {
+		secure: false,
+		httpOnly: false
 	},
-	secret: "xxxxx",
-	key: 'sessionid',
-	cookie: { secure: false },
-	saveUninitialized: true,
-	resave: true
+	saveUninitialized: true
 }));
 
 
@@ -30,6 +29,7 @@ app.use('/static', express.static('./static'));
 var aWss = expressWs.getWss('/');
 
 app.get('/getUser', function (req, res, next) {
+	console.log(req.sessionID);
 	var result = {
 		isSuccess: true
 	};
@@ -52,6 +52,7 @@ app.get('/', function (req, res, next) {
 });
 
 app.ws('/', function (ws, req) {
+	console.log(req.sessionID);
 	if (req.session.user) {
 		ws.user = req.session.user;
 		ws.uid = req.session.uid;

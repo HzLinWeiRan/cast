@@ -8,11 +8,19 @@
     var ws = new WebSocket('ws://' + location.hostname + ':' + location.port + '/');
     function send() {
       if (txt.value != '') {
+        // ws.send(JSON.stringify({
+        //   sid: getCookie('connect.sid'),
+        //   txt: txt.value
+        // }));
         ws.send(txt.value);
         txt.value = '';
       }
     }
     ws.onmessage = function (msg) {
+      if (msg.data == "未登录") {
+        return;
+      }
+      debugger;
       var data = JSON.parse(msg.data);
       var div = document.createElement("div");
       var p = document.createElement("p");
@@ -33,17 +41,19 @@
       send();
     }
     var enterDown = false, crilDown = false;
-    txt.onkeydown = function () {
-      event.keyCode == 13 && (enterDown = true);
-      event.keyCode == 17 && (crilDown = true);
+    txt.onkeydown = function (e) {
+      e = e || event;
+      e.keyCode == 13 && (enterDown = true);
+      e.keyCode == 17 && (crilDown = true);
       if (crilDown && enterDown) {
         send();
       }
       return true;
     }
-    txt.onkeyup = function () {
-      event.keyCode == 13 && (enterDown = false);
-      event.keyCode == 17 && (crilDown = false);
+    txt.onkeyup = function (e) {
+      e = e || event;
+      e.keyCode == 13 && (enterDown = false);
+      e.keyCode == 17 && (crilDown = false);
     }
 
   }
@@ -52,7 +62,11 @@
     url: 'getUser',
     type: "get",
     async: false,
+    cache: false,
     success: function (res) {
+      console.log(res);
+      console.log(res.isSuccess);
+      console.log(res.name);
       if (res.isSuccess && res.name) {
         openWs();
       } else {
@@ -71,6 +85,7 @@
       url: 'setUser',
       type: "post",
       async: false,
+      cache: false,
       data: {
         user: name
       },
